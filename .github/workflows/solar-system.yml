@@ -19,6 +19,7 @@ jobs:
           uses: actions/setup-node@v3
           with:
             node-version: 20
+            cache: 'npm'
     
         - name: Install Dependencies
           run: npm install
@@ -43,6 +44,7 @@ jobs:
           uses: actions/setup-node@v4
           with: 
             node-version: 18 
+            cache: 'npm'
 
         - name: install dependecis
           run: npm install 
@@ -51,7 +53,7 @@ jobs:
           run: npm run coverage
 
         - name: Archive Test Result 
-          uses: actions/upload-artifact@v4 
+          uses: actions/upload-artifact@v 
           with: 
             name: Code-Coverage-Result
             path: coverage
