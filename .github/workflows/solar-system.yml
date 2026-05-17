@@ -16,10 +16,17 @@ jobs:
           uses: actions/checkout@v4
 
         - name: Setup NodeJS Version
-          uses: actions/setup-node@v3
+          uses: actions/setup-node@v4
           with:
             node-version: 20
-            cache: 'npm'
+    
+        - name: Cache npm dependencies
+          uses: actions/cache@v4
+          with:
+            path: ~/.npm
+            key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
+              ${{ runner.os }}-npm-
     
         - name: Install Dependencies
           run: npm install
@@ -33,23 +40,30 @@ jobs:
             name: Mocha-Test-Result
             path: test-results.xml
           
-    code-ceverage:
+    code-coverage:
         name: Code Coverage 
         runs-on: ubuntu-latest
         steps:
         - name: Checkout 
           uses: actions/checkout@v4
 
-        - name: Setup Nodejs Version - 18
+        - name: Setup Nodejs Version
           uses: actions/setup-node@v4
           with: 
-            node-version: 18 
-            cache: 'npm'
+            node-version: 18
 
-        - name: install dependecis
+        - name: Cache npm dependencies
+          uses: actions/cache@v4
+          with:
+            path: ~/.npm
+            key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
+              ${{ runner.os }}-npm-
+
+        - name: Install Dependencies
           run: npm install 
 
-        - name: check code coverage
+        - name: Check Code Coverage
           run: npm run coverage
 
         - name: Archive Test Result 
